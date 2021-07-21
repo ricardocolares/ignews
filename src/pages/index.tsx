@@ -1,14 +1,14 @@
-import { GetStaticProps } from "next";
-import Head from "next/head";
-import { SubscribeButton } from "../components/SubscribeButton";
-import { stripe } from "../services/stripe";
+import { GetStaticProps } from 'next';
+import Head from 'next/head';
+import { SubscribeButton } from '../components/SubscribeButton';
+import { stripe } from '../services/stripe';
 
-import styles from "./home.module.scss";
+import styles from './home.module.scss';
 
 interface HomeProps {
   product: {
     priceId: string;
-    amount: number;
+    amount: string;
   };
 }
 
@@ -39,13 +39,13 @@ export default function Home({ product }: HomeProps) {
 }
 
 export const getStaticProps: GetStaticProps = async () => {
-  const price = await stripe.prices.retrieve("price_1IYLw9BW2X0kTJBGpG7xXU3B");
+  const price = await stripe.prices.retrieve('price_1IYLw9BW2X0kTJBGpG7xXU3B');
 
   const product = {
     priceId: price.id,
-    amount: new Intl.NumberFormat("pt-BR", {
-      style: "currency",
-      currency: "BRL",
+    amount: new Intl.NumberFormat('en-US', {
+      style: 'currency',
+      currency: 'USD',
     }).format(price.unit_amount / 100),
   };
   return {
